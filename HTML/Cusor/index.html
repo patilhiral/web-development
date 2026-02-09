@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cursor - AI-Powered Code Editor</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+          Cantarell, sans-serif;
+        line-height: 1.6;
+        color: #1a1a1a;
+        background: #f7f7f4;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header */
+      header {
+        background: #f7f7f4;
+        padding: 1rem 0;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 100;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #1a1a1a;
+        text-decoration: none;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+      }
+
+      .nav-links a {
+        color: #666;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: #1a1a1a;
+      }
+
+      .btn {
+        padding: 0.6rem 1.5rem;
+        background: #1a1a1a;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: opacity 0.3s;
+      }
+
+      .btn:hover {
+        opacity: 0.9;
+      }
+
+      .btn-ghost {
+        background: transparent;
+        color: #1a1a1a;
+        border: 1px solid #ddd;
+      }
+
+      /* Hero Section */
+      .hero {
+        margin-top: 100px;
+        padding: 4rem 0;
+        text-align: center;
+      }
+
+      .hero h1 {
+        font-size: 3.5rem;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero p {
+        font-size: 1.25rem;
+        color: #666;
+        margin-bottom: 2rem;
+      }
+
+      .cta-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-bottom: 3rem;
+      }
+
+      /* Demo Window */
+      .demo-container {
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 28px 70px rgba(0, 0, 0, 0.14);
+        margin: 0 auto;
+        max-width: 1000px;
+      }
+
+      .demo-header {
+        background: #e8e8e8;
+        padding: 0.8rem 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .demo-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #ddd;
+      }
+
+      .demo-content {
+        padding: 2rem;
+        background: #fafafa;
+        min-height: 400px;
+      }
+
+      .code-line {
+        font-family: "Courier New", monospace;
+        padding: 0.5rem;
+        color: #333;
+      }
+
+      /* Features Section */
+      .features {
+        padding: 5rem 0;
+        background: #fff;
+      }
+
+      .features h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 3rem;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .feature-card {
+        padding: 2rem;
+        background: #f7f7f4;
+        border-radius: 8px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+      }
+
+      .feature-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .feature-card p {
+        color: #666;
+      }
+
+      /* Footer */
+      footer {
+        background: #f7f7f4;
+        padding: 3rem 0;
+        margin-top: 5rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+      }
+
+      .footer-section h4 {
+        margin-bottom: 1rem;
+        color: #1a1a1a;
+      }
+
+      .footer-section ul {
+        list-style: none;
+      }
+
+      .footer-section a {
+        color: #666;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 0.5rem;
+        transition: color 0.3s;
+      }
+
+      .footer-section a:hover {
+        color: #1a1a1a;
+      }
+
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        .cta-buttons {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <nav>
+          <a href="#" class="logo">Cursor</a>
+          <ul class="nav-links">
+            <li><a href="#product">Product</a></li>
+            <li><a href="#enterprise">Enterprise</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#resources">Resources</a></li>
+          </ul>
+          <div style="display: flex; gap: 1rem">
+            <a href="#" class="btn btn-ghost">Sign in</a>
+            <a href="#" class="btn">Download</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container">
+          <h1>
+           Built to make you extraordinarily productive,
+            Cursor is the best way to code with AI.
+          </h1>
+          <div class="cta-buttons">
+            <a href="#" class="btn">Download for Window ⤓</a>
+          </div>
+
+          <div class="demo-container">
+            <div class="demo-header">
+              <span class="demo-dot"></span>
+              <span class="demo-dot"></span>
+              <span class="demo-dot"></span>
+            </div>
+            <div class="demo-content">
+              <div class="code-line">&lt;div className="app"&gt;</div>
+              <div class="code-line">
+                &lt;h1&gt;Welcome to AI-Powered Coding&lt;/h1&gt;
+              </div>
+              <div class="code-line">
+                &lt;p&gt;Build faster with intelligent autocomplete&lt;/p&gt;
+              </div>
+              <div class="code-line">&lt;/div&gt;</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="features" id="product">
+        <div class="container">
+          <h2>The new way to build software</h2>
+          <div class="feature-grid">
+            <div class="feature-card">
+              <h3>Agents turn ideas into code</h3>
+              <p>
+                Accelerate development by handing off tasks to Cursor, while you
+                focus on making decisions.
+              </p>
+            </div>
+            <div class="feature-card">
+              <h3>Magically accurate autocomplete</h3>
+              <p>
+                Our specialized Tab model predicts your next action with
+                striking speed and precision.
+              </p>
+            </div>
+            <div class="feature-card">
+              <h3>In every tool, at every step</h3>
+              <p>
+                Cursor reviews your PRs in GitHub, collaborates in Slack, and
+                runs in your terminal.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h4>Product</h4>
+            <ul>
+              <li><a href="#">Agents</a></li>
+              <li><a href="#">Enterprise</a></li>
+              <li><a href="#">Pricing</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="#">Download</a></li>
+              <li><a href="#">Changelog</a></li>
+              <li><a href="#">Docs</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Company</h4>
+            <ul>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Community</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Connect</h4>
+            <ul>
+              <li><a href="#">X</a></li>
+              <li><a href="#">LinkedIn</a></li>
+              <li><a href="#">YouTube</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
